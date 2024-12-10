@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.controller.ApiController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,21 +15,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
+public class CustomAuthenticationEntryPoint extends ApiController implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+        response.setStatus(HttpServletResponse.SC_OK); // 401 Unauthorized
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", 401);
-        responseBody.put("error", "Unauthorized");
-        responseBody.put("message", "You need to authenticate to access this resource.");
-        responseBody.put("timestamp", LocalDateTime.now());
-
-        ObjectMapper mapper = new ObjectMapper();
-        response.getWriter().write(mapper.writeValueAsString(responseBody));
+        String jsonResponse = """
+                {
+                    "error": true,
+                    "code" : 200,
+                    "message": "You need to authenticate to access this resource.",
+                    "data": {
+                      
+                    }
+                }
+                """;
+        response.getWriter().write(jsonResponse);
+        response.getWriter().flush();
     }
 }

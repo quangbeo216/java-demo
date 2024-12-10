@@ -11,13 +11,14 @@ import java.util.stream.Collectors;
 
 import static com.example.demo.constant.Permission.*;
 
+
+@Getter
 @RequiredArgsConstructor
 public enum Role {
 
     USER(Collections.emptySet()),
     MANAGER(Set.of(MANAGER_READ, MANAGER_UPDATE, MANAGER_DELETE, MANAGER_CREATE));
 
-    @Getter
     private final Set<Permission> permissions;
 
     public List<SimpleGrantedAuthority> getAuthorities() {

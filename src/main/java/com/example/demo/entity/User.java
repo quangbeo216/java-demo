@@ -1,14 +1,11 @@
 package com.example.demo.entity;
 
 
-
-import com.example.demo.constant.Role;import jakarta.persistence.*;
+import com.example.demo.constant.Role;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -34,6 +31,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private Boolean enabled;
+    private String verifyCode;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -71,7 +69,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 
     @CreatedDate
